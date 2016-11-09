@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -18,16 +19,16 @@
                                 <h:panelGrid id="gridBuscarDatosClientes" columns="5">
                                     <p:outputLabel value="Cod. Cliente" style="font-weight: bold;"/>
                                     <p:inputText size="12"/>
-                                    <p:commandButton value="..."/>
+                                    <p:commandButton value="..." oncomplete="PF('dialogCliente').show()" update="dlgCliente"/>
                                     <p:outputLabel value="Fecha" style="font-weight: bold;"/>
                                     <p:outputLabel value="Fecha Sistema" style="font-weight: bold"/>
                                 </h:panelGrid>
                                 <p:separator>
                                     <h:panelGrid id="gridDatosCliente" columns="2">
                                         <p:outputLabel value="Nombre" style="font-weight: bold"/>
-                                        <p:outputLabel id="lblNombreCliente" value=""/>
+                                        <p:outputLabel id="lblNombreCliente" value="#{facturaBean.cliente.nombres} #{facturaBean.cliente.apellidos}"/>
                                         <p:outputLabel value="Direccion" style="font-weight: bold"/>
-                                        <p:outputLabel id="lblDireccionCliente" value=""/>
+                                        <p:outputLabel id="lblDireccionCliente" value="#{facturaBean.cliente.direccion}"/>
                                     </h:panelGrid>
                                 </p:separator>
                             </p:layoutUnit>
@@ -41,7 +42,7 @@
                         <p:separator/>
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Codigo de Barra"/>
-                            <p:inputText value="" size="12"/>
+                            <p:inputText  size="12"/>
                             <p:commandButton value="..."/>
                         </h:panelGrid>
                         <p:separator/>
@@ -66,6 +67,27 @@
                         <p:commandButton value="Imprimir" style="width: 150px; height: 60px"/>
                         <p:commandButton value="Cancelar" style="width: 150px; height: 60px"/>
                     </p:panel>
+                    <!--dialgo para mostrar datos del sistema -->
+                    <p:dialog id="dlgCliente" widgetVar="dialogCliente" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode" header="Buscar Datos">
+                        <p:dataTable id="tablaClientes" paginator="true" paginatorPosition="top"
+                                     var="ct"   value="#{clienteBean.listaCliente}" emptyMessage="No hay datos" style="width: 700px">
+                            <p:column headerText="codigo">
+                                <h:outputText value="#{ct.codCliente}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{ct.nombres} #{ct.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Direccion">
+                                <h:outputText value="#{ct.direccion}"/>
+                            </p:column>
+                            <p:column headerText="">
+                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosClientes(ct.codCliente)}" oncomplete="PF('dialogCliente').hide();"
+                                                 update=":gridDatosCliente"/>
+                            </p:column>
+                    </p:dataTable>
+                        <p:commandButton value="Cerrar" onclick="PF(dialogCliente).hide();"/>
+                    </p:dialog>
                 </form>
             </ui:define>
 
