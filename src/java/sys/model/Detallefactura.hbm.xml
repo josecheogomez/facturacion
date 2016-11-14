@@ -14,11 +14,20 @@
         <many-to-one name="producto" class="sys.model.Producto" fetch="select">
             <column name="codProducto" not-null="true" />
         </many-to-one>
-        <property name="precioVenta" type="long">
+        <property name="codBarra" type="string">
+            <column name="codBarra" not-null="true" />
+        </property>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" not-null="true" />
+        </property>
+        <property name="precioVenta" type="float">
             <column name="precioVenta" precision="10" scale="0" not-null="true" />
         </property>
         <property name="cantidad" type="int">
             <column name="cantidad" not-null="true" />
+        </property>
+        <property name="total" type="float">
+            <column name="total" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

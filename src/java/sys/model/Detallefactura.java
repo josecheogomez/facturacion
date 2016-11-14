@@ -12,17 +12,23 @@ public class Detallefactura  implements java.io.Serializable {
      private Integer codDetalle;
      private Factura factura;
      private Producto producto;
-     private long precioVenta;
+     private String codBarra;
+     private String nombreProducto;
+     private float precioVenta;
      private int cantidad;
+     private float total;
 
     public Detallefactura() {
     }
 
-    public Detallefactura(Factura factura, Producto producto, long precioVenta, int cantidad) {
+    public Detallefactura(Factura factura, Producto producto,String codBarra,String nombreProducto, float precioVenta, int cantidad,float total) {
        this.factura = factura;
        this.producto = producto;
+       this.codBarra=codBarra;
+       this.nombreProducto=nombreProducto;
        this.precioVenta = precioVenta;
        this.cantidad = cantidad;
+       this.total=total;
     }
    
     public Integer getCodDetalle() {
@@ -46,11 +52,28 @@ public class Detallefactura  implements java.io.Serializable {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-    public long getPrecioVenta() {
+
+    public String getCodBarra() {
+        return codBarra;
+    }
+
+    public void setCodBarra(String codBarra) {
+        this.codBarra = codBarra;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+    
+    public float getPrecioVenta() {
         return this.precioVenta;
     }
     
-    public void setPrecioVenta(long precioVenta) {
+    public void setPrecioVenta(float precioVenta) {
         this.precioVenta = precioVenta;
     }
     public int getCantidad() {
@@ -59,6 +82,14 @@ public class Detallefactura  implements java.io.Serializable {
     
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 
 

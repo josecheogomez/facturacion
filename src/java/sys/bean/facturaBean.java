@@ -5,6 +5,9 @@
  */
 package sys.bean;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,8 +15,12 @@ import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sys.dao.clienteDao;
+import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
+import sys.imp.productoDaoImp;
 import sys.model.Cliente;
+import sys.model.Detallefactura;
+import sys.model.Producto;
 import sys.util.HibernateUtil;
 
 /**
@@ -28,7 +35,29 @@ public class facturaBean{
    
     private Cliente cliente;
     private Integer codigoCliente;
+    private Producto producto;
+    private String codigoBarra;
+    //detalle de la factura
+    private List<Detallefactura> listaDetalleFactura;
+    
     public facturaBean() {
+        listaDetalleFactura=new ArrayList<>();
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public String getCodigoBarra() {
+        return codigoBarra;
+    }
+
+    public void setCodigoBarra(String codigoBarra) {
+        this.codigoBarra = codigoBarra;
     }
 
     public Cliente getCliente() {
@@ -46,6 +75,15 @@ public class facturaBean{
     public void setCodigoCliente(Integer codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
+
+    public List<Detallefactura> getListaDetalleFactura() {
+        return listaDetalleFactura;
+    }
+
+    public void setListaDetalleFactura(List<Detallefactura> listaDetalleFactura) {
+        this.listaDetalleFactura = listaDetalleFactura;
+    }
+    
     //metodo para mostrar datos clientes por medio del dialogClientes
     public void agregarDatosClientes(Integer codCliente){
     this.session=null;
@@ -102,6 +140,37 @@ public class facturaBean{
         }
         this.transaction.commit();
         //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+    }
+    catch(Exception e)
+    {
+     if(this.transaction != null)
+     {  
+         System.out.println("Error"+e.getMessage());
+         transaction.rollback();
+     }
+    }
+    finally
+    {
+        if(this.session!=null)
+        {
+            this.session.close();
+        }
+    }
+    }
+    //metodo para agregar datos productos por medio del dialogProductos
+    public void agregarDatosProductos(String codBarra){
+    this.session=null;
+    this.transaction=null;
+    try
+    {
+        this.session=HibernateUtil.getSessionFactory().openSession();
+        productoDao pDao = new productoDaoImp();
+        this.transaction=this.session.beginTransaction();
+        //obtener datos producot
+        this.producto=pDao.obtenerProductoPorCodBarra(this.session, codBarra);
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Float(0)));
+        this.transaction.commit();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
     }
     catch(Exception e)
     {
