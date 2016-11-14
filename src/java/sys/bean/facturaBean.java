@@ -22,12 +22,12 @@ import sys.util.HibernateUtil;
  */
 @ManagedBean
 @ViewScoped
-public class facturaBean {
+public class facturaBean{
     Session session=null;
     Transaction transaction=null;
    
     private Cliente cliente;
-    private String codigoCliente;
+    private Integer codigoCliente;
     public facturaBean() {
     }
 
@@ -39,11 +39,11 @@ public class facturaBean {
         this.cliente = cliente;
     }
 
-    public String getCodigoCliente() {
+    public Integer getCodigoCliente() {
         return codigoCliente;
     }
 
-    public void setCodigoCliente(String codigoCliente) {
+    public void setCodigoCliente(Integer codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
     //metodo para mostrar datos clientes por medio del dialogClientes
@@ -59,6 +59,49 @@ public class facturaBean {
         this.cliente=cDao.obtenerClientePorCodigo(this.session, codCliente);
         this.transaction.commit();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+    }
+    catch(Exception e)
+    {
+     if(this.transaction != null)
+     {  
+         System.out.println("Error"+e.getMessage());
+         transaction.rollback();
+     }
+    }
+    finally
+    {
+        if(this.session!=null)
+        {
+            this.session.close();
+        }
+    }
+    }
+    //metodo para mostrar datos clientes por medio del codigo
+    public void agregarDatosClientes2(){
+    this.session=null;
+    this.transaction=null;
+    try
+    {
+        if(codigoCliente==null)
+        {
+            return;
+        }
+        this.session=HibernateUtil.getSessionFactory().openSession();
+        clienteDao cDao = new clienteDaoImp();
+        this.transaction=this.session.getTransaction();
+        //obtener datos clientes objeto cliente segun codigo cliente
+        this.cliente=cDao.obtenerClientePorCodigo(this.session, codigoCliente);
+        if(this.cliente!=null)
+        {
+            this.codigoCliente=null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+        }else
+        {
+            this.codigoCliente=null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","Datos del Cliente No encontrado"));
+        }
+        this.transaction.commit();
+        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
     }
     catch(Exception e)
     {

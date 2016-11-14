@@ -18,8 +18,11 @@
                             <p:layoutUnit id="datosClientes" position="center" style="padding: 5px; text-align: justify; font-size: 14px;" size="300">
                                 <h:panelGrid id="gridBuscarDatosClientes" columns="5">
                                     <p:outputLabel value="Codigo Cliente" style="font-weight: bold;"/>
-                                    <p:inputText size="12"/>
-                                    <p:commandButton value="..." oncomplete="PF('dialogCliente').show();" update="dlgCliente"/>
+                                    <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12">
+                                        <p:ajax event="keyup" listener="#{facturaBean.agregarDatosClientes2()}"
+                                                update=":gridDatosCliente"/>
+                                    </p:inputText>
+                                    <p:commandButton value="..." oncomplete="PF('dialogCliente').show();" update=":dlgCliente"/>
                                     <p:outputLabel value="Fecha" style="font-weight: bold;"/>
                                     <p:outputLabel value="Fecha Sistema" style="font-weight: bold"/>
                                 </h:panelGrid>
@@ -85,7 +88,7 @@
                             </p:column>
                             <p:column headerText="">
                                 <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosClientes(ct.codCliente)}" oncomplete="PF('dialogCliente').hide();"
-                                                 update="gridDatosCliente"/>
+                                                 update=":gridDatosCliente"/>
                             </p:column>
                         </p:dataTable>
                         <p:commandButton value="Cerrar" onclick="PF(dialogCliente).hide();"/>
