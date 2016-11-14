@@ -54,7 +54,7 @@ public class facturaBean{
     {
         this.session=HibernateUtil.getSessionFactory().openSession();
         clienteDao cDao = new clienteDaoImp();
-        this.transaction=this.session.getTransaction();
+        this.transaction=this.session.beginTransaction();
         //obtener datos clientes objeto cliente segun codigo cliente
         this.cliente=cDao.obtenerClientePorCodigo(this.session, codCliente);
         this.transaction.commit();
@@ -88,7 +88,7 @@ public class facturaBean{
         }
         this.session=HibernateUtil.getSessionFactory().openSession();
         clienteDao cDao = new clienteDaoImp();
-        this.transaction=this.session.getTransaction();
+        this.transaction=this.session.beginTransaction();
         //obtener datos clientes objeto cliente segun codigo cliente
         this.cliente=cDao.obtenerClientePorCodigo(this.session, codigoCliente);
         if(this.cliente!=null)
