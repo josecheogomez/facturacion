@@ -168,9 +168,59 @@ public class facturaBean{
         this.transaction=this.session.beginTransaction();
         //obtener datos producot
         this.producto=pDao.obtenerProductoPorCodBarra(this.session, codBarra);
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Float(0)));
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
         this.transaction.commit();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+    }
+    catch(Exception e)
+    {
+     if(this.transaction != null)
+     {  
+         System.out.println("Error"+e.getMessage());
+         transaction.rollback();
+     }
+    }
+    finally
+    {
+        if(this.session!=null)
+        {
+            this.session.close();
+        }
+    }
+    }
+    //metodo para mostrar datos clientes por medio del codigo
+    public void agregarDatosProductos2(){
+    this.session=null;
+    this.transaction=null;
+    try
+    {
+        if(codigoBarra.equals(""))
+        {
+            return;
+        }
+        this.session=HibernateUtil.getSessionFactory().openSession();
+        productoDao pDao = new productoDaoImp();
+        this.transaction=this.session.beginTransaction();
+        //obtener datos clientes objeto producto segun codigo barra
+        this.producto=pDao.obtenerProductoPorCodBarra(this.session, codigoBarra);
+        //evaluacion
+        if(this.producto!=null)
+        {
+            //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
+       
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
+             //limpia
+        this.codigoBarra=null;
+        }else
+        {
+             //limpia
+            this.codigoBarra=null;
+            this.codigoBarra=null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","Datos del Producto No encontrado"));
+        }
+        this.transaction.commit();
+        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
     }
     catch(Exception e)
     {

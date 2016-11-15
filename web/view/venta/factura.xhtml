@@ -11,6 +11,7 @@
 
             <ui:define name="content">
                 <h1>Realizar Venta</h1>
+                <p:growl id="msgform"/>
                 <h:form id="formFactura">
                     <p:panel header=".'." style="width: 900px; margin: 0 auto; text-align: center;">
                         <p:layout id="capaDatosFactura" style="width: 100%; height: 150px">
@@ -41,9 +42,11 @@
                             </p:layoutUnit>
                         </p:layout>
                         <p:separator/>
-                        <h:panelGrid columns="3">
+                        <h:panelGrid id="gridBuscarProducto" columns="3">
                             <p:outputLabel value="Codigo de Barra"/>
-                            <p:inputText size="12"/>
+                            <p:inputText id="txtBuscarProductoCodigoBarra" size="12" value="#{facturaBean.codigoBarra}">
+                                <p:ajax event="keyup" listener="#{facturaBean.agregarDatosProductos2()}" update=":formFactura:tablaProductoFactura :formFactura:txtBuscarProductoCodigoBarra"/>
+                            </p:inputText>
                             <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos"/>
                         </h:panelGrid>
                         <p:separator/>
@@ -106,10 +109,10 @@
                             <p:column headerText="Precio Venta">
                                 <h:outputText value="#{pro.precioVenta}"/>
                             </p:column>
-                            <p:column headerText="Precio Venta">
+                            <p:column headerText="Stock">
                                 <h:outputText value="#{pro.stockActual}"/>
                             </p:column>
-                            <p:column headerText="Precio Venta">
+                            <p:column headerText="Codigo de Barras">
                                 <h:outputText value="#{pro.codBarra}"/>
                             </p:column>
                             <p:column headerText="">
