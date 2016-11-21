@@ -6,6 +6,7 @@
 package sys.bean;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,7 @@ import sys.imp.clienteDaoImp;
 import sys.imp.productoDaoImp;
 import sys.model.Cliente;
 import sys.model.Detallefactura;
+import sys.model.Factura;
 import sys.model.Producto;
 import sys.util.HibernateUtil;
 
@@ -39,9 +41,14 @@ public class facturaBean{
     private String codigoBarra;
     //detalle de la factura
     private List<Detallefactura> listaDetalleFactura;
+    private Integer CantidadProducto;
+    private String productoSeleccionado;
+    private Factura factura;
     
     public facturaBean() {
         listaDetalleFactura=new ArrayList<>();
+        factura=new Factura();
+        
     }
 
     public Producto getProducto() {
@@ -83,7 +90,31 @@ public class facturaBean{
     public void setListaDetalleFactura(List<Detallefactura> listaDetalleFactura) {
         this.listaDetalleFactura = listaDetalleFactura;
     }
-    
+
+    public Integer getCantidadProducto() {
+        return CantidadProducto;
+    }
+
+    public void setCantidadProducto(Integer CantidadProducto) {
+        this.CantidadProducto = CantidadProducto;
+    }
+
+    public String getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(String productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+   
     //metodo para mostrar datos clientes por medio del dialogClientes
     public void agregarDatosClientes(Integer codCliente){
     this.session=null;
@@ -157,8 +188,13 @@ public class facturaBean{
         }
     }
     }
+     //metodo para solicitar cantidad producto
+    public void pedirCantidadProducto(String codBarra)
+    {
+        this.productoSeleccionado=codBarra;
+    }
     //metodo para agregar datos productos por medio del dialogProductos
-    public void agregarDatosProductos(String codBarra){
+    public void agregarDatosProductos(){
     this.session=null;
     this.transaction=null;
     try
@@ -167,10 +203,12 @@ public class facturaBean{
         productoDao pDao = new productoDaoImp();
         this.transaction=this.session.beginTransaction();
         //obtener datos producot
-        this.producto=pDao.obtenerProductoPorCodBarra(this.session, codBarra);
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
+        this.producto=pDao.obtenerProductoPorCodBarra(this.session, productoSeleccionado);
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),
+                this.producto.getPrecioVenta(),this.CantidadProducto,new Float(this.CantidadProducto.floatValue()*this.producto.getPrecioVenta())));
         this.transaction.commit();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+        this.CantidadProducto=null;
     }
     catch(Exception e)
     {
@@ -207,7 +245,7 @@ public class facturaBean{
         if(this.producto!=null)
         {
             //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Float(0)));
        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
              //limpia
@@ -237,5 +275,24 @@ public class facturaBean{
             this.session.close();
         }
     }
+    }
+    //metodo para calcular venta
+    public void totalFactura()
+    {
+        Float totalFacturaVenta = new Float("0");
+        try
+        {
+           for(Detallefactura item: listaDetalleFactura)
+           {
+              Float totalVentaPorProducto=item.getPrecioVenta() * ((item.getCantidad()));
+              item.setTotal(totalVentaPorProducto);
+              totalFacturaVenta=totalVentaPorProducto;
+           } 
+          // this.factura.setTotalVenta(totalFacturaVenta);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error"+e.getMessage());
+        }
     }
 }

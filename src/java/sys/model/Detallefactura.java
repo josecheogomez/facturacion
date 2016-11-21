@@ -16,12 +16,12 @@ public class Detallefactura  implements java.io.Serializable {
      private String nombreProducto;
      private float precioVenta;
      private int cantidad;
-     private double total;
+     private float total;
 
     public Detallefactura() {
     }
 
-    public Detallefactura(Factura factura, Producto producto,String codBarra,String nombreProducto, float precioVenta, int cantidad,double total) {
+    public Detallefactura(Factura factura, Producto producto,String codBarra,String nombreProducto, float precioVenta, int cantidad,float total) {
        this.factura = factura;
        this.producto = producto;
        this.codBarra=codBarra;
@@ -84,11 +84,11 @@ public class Detallefactura  implements java.io.Serializable {
         this.cantidad = cantidad;
     }
 
-    public double getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 

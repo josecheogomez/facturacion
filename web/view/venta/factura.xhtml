@@ -58,13 +58,13 @@
                                 <h:outputText value="#{item.nombreProducto}"/>
                             </p:column>
                             <p:column headerText="Cantidad">
-                                
+                                <h:outputText value="#{item.cantidad}"/> 
                             </p:column>
                             <p:column headerText="Precio Venta">
                                 Gs <h:outputText value="#{item.precioVenta}"/>
                             </p:column>
                             <p:column headerText="Total">
-                                
+                                Gs <h:outputText value="#{item.total}"/>
                             </p:column>
                         </p:dataTable>
                         <p:outputLabel value="Total Venta:"/>
@@ -116,11 +116,17 @@
                                 <h:outputText value="#{pro.codBarra}"/>
                             </p:column>
                             <p:column headerText="">
-                                <p:commandButton value="Seleccionar" oncomplete="PF('dialogProductos').hide();" actionListener="#{facturaBean.agregarDatosProductos(pro.codBarra)}"
-                                                 update=":formFactura:tablaProductoFactura"/>
+                                <p:commandButton value="Seleccionar" oncomplete="PF('dialogCantidadProducto').show()" 
+                                                 actionListener="#{facturaBean.pedirCantidadProducto(pro.codBarra)}"/>
                             </p:column>
                         </p:dataTable>
                         <p:commandButton value="Cerrar" onclick="PF(dialogProductos).hide();"/>
+                    </p:dialog>
+                    <p:dialog id="dlgCantidadProducto" widgetVar="dialogCantidadProducto" header="Cantidad" modal="true">
+                        <p:outputLabel value="Cantidad:"/>
+                        <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
+                        <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProductos()}"
+                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto" oncomplete="PF('dialogCantidadProducto').hide();PF('dialogProductos').hide();"/>
                     </p:dialog>
                 </h:form>
             </ui:define>

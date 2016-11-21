@@ -26,7 +26,7 @@
         <property name="cantidad" type="int">
             <column name="cantidad" not-null="true" />
         </property>
-        <property name="total" type="double">
+        <property name="total" type="float">
             <column name="total" not-null="true" />
         </property>
     </class>
