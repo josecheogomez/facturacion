@@ -6,7 +6,6 @@
 package sys.bean;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -205,9 +204,12 @@ public class facturaBean{
         //obtener datos producot
         this.producto=pDao.obtenerProductoPorCodBarra(this.session, productoSeleccionado);
         this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),
-                this.producto.getPrecioVenta(),this.CantidadProducto,new Float(this.CantidadProducto.floatValue()*this.producto.getPrecioVenta())));
+        this.producto.getPrecioVenta(),this.CantidadProducto,new Double(this.CantidadProducto*this.producto.getPrecioVenta())));
         this.transaction.commit();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+        //llamada al metodo totalFacturaVenta
+        this.totalFacturaVenta();
+        //limpiamos cantidad producto
         this.CantidadProducto=null;
     }
     catch(Exception e)
@@ -245,7 +247,7 @@ public class facturaBean{
         if(this.producto!=null)
         {
             //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Float(0)));
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
              //limpia
@@ -277,18 +279,26 @@ public class facturaBean{
     }
     }
     //metodo para calcular venta
-    public void totalFactura()
+    public void totalFacturaVenta()
     {
-        Float totalFacturaVenta = new Float("0");
+        Double totalFacturaVenta = new Double("0");
         try
         {
            for(Detallefactura item: listaDetalleFactura)
            {
-              Float totalVentaPorProducto=item.getPrecioVenta() * ((item.getCantidad()));
+              /*Esta porqueria no funciono
+               BigDecimal totalVentaPorProducto=item.getPrecioVenta() * ((item.getCantidad()));
               item.setTotal(totalVentaPorProducto);
-              totalFacturaVenta=totalVentaPorProducto;
+              totalFacturaVenta=totalFacturaVenta.add(totalVentaPorFactura);*/
+               /*esto lo cree yo jajaja
+               primero multiplica el precio del producto por la cantidad*/
+               float totalVentaPorProducto=item.getPrecioVenta()*item.getCantidad();
+               /*comienza a trabajar el bucle*/
+               item.setTotal(totalVentaPorProducto);
+               /*se define el valor del total*/
+               totalFacturaVenta=Double.sum(totalFacturaVenta,totalVentaPorProducto);
            } 
-          // this.factura.setTotalVenta(totalFacturaVenta);
+          this.factura.setTotalVenta(totalFacturaVenta);
         }
         catch(Exception e)
         {

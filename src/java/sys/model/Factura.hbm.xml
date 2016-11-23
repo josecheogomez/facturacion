@@ -17,7 +17,7 @@
         <property name="numeroFactura" type="string">
             <column name="numeroFactura" length="10" not-null="true" />
         </property>
-        <property name="totalVenta" type="long">
+        <property name="totalVenta" type="double">
             <column name="totalVenta" precision="10" scale="0" not-null="true" />
         </property>
         <property name="fechaRegistro" type="timestamp">

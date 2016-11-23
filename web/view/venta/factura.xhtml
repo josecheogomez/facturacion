@@ -67,8 +67,11 @@
                                 Gs <h:outputText value="#{item.total}"/>
                             </p:column>
                         </p:dataTable>
-                        <p:outputLabel value="Total Venta:"/>
-                        $ <p:outputLabel value="Total a Vender"/>
+                        <p:separator/>
+                        <h:panelGrid columns="2" style="font-size: 24px; margin: 0 auto" id="gridTotalFactura">
+                           Total Venta $
+                         <p:outputLabel value="#{facturaBean.factura.totalVenta}"/>
+                        </h:panelGrid>
                         <p:separator/>
                         <p:commandButton value="Registrar" style="width: 150px; height: 60px"/>
                         <p:commandButton value="Imprimir" style="width: 150px; height: 60px"/>
@@ -126,7 +129,7 @@
                         <p:outputLabel value="Cantidad:"/>
                         <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
                         <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProductos()}"
-                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto" oncomplete="PF('dialogCantidadProducto').hide();PF('dialogProductos').hide();"/>
+                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto :formFactura:gridTotalFactura" oncomplete="PF('dialogCantidadProducto').hide();PF('dialogProductos').hide();"/>
                     </p:dialog>
                 </h:form>
             </ui:define>

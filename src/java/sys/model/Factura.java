@@ -16,7 +16,7 @@ public class Factura  implements java.io.Serializable {
      private Cliente cliente;
      private Vendedor vendedor;
      private String numeroFactura;
-     private long totalVenta;
+     private double totalVenta;
      private Date fechaRegistro;
      private Set<Detallefactura> detallefacturas = new HashSet<Detallefactura>(0);
 
@@ -24,7 +24,7 @@ public class Factura  implements java.io.Serializable {
     }
 
 	
-    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura, long totalVenta, Date fechaRegistro) {
+    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura, double totalVenta, Date fechaRegistro) {
         this.cliente = cliente;
         this.vendedor = vendedor;
         this.numeroFactura = numeroFactura;
@@ -68,11 +68,11 @@ public class Factura  implements java.io.Serializable {
     public void setNumeroFactura(String numeroFactura) {
         this.numeroFactura = numeroFactura;
     }
-    public long getTotalVenta() {
+    public double getTotalVenta() {
         return this.totalVenta;
     }
     
-    public void setTotalVenta(long totalVenta) {
+    public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
     public Date getFechaRegistro() {

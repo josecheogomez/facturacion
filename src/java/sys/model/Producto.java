@@ -30,7 +30,7 @@ public class Producto  implements java.io.Serializable {
         this.stockActual = stockActual;
         this.codBarra = codBarra;
     }
-    public Producto(String nombreProducto, float precioVenta, int stockMinimo, int stockActual, String codBarra, Set<Detallefactura> detallefacturas) {
+    public Producto(String nombreProducto, long precioVenta, int stockMinimo, int stockActual, String codBarra, Set<Detallefactura> detallefacturas) {
        this.nombreProducto = nombreProducto;
        this.precioVenta = precioVenta;
        this.stockMinimo = stockMinimo;
