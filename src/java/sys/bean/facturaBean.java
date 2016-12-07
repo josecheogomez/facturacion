@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
 import sys.dao.clienteDao;
 import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
@@ -43,6 +44,8 @@ public class facturaBean{
     private Integer CantidadProducto;
     private String productoSeleccionado;
     private Factura factura;
+    
+    private Integer CantidadProducto2;
     
     public facturaBean() {
         listaDetalleFactura=new ArrayList<>();
@@ -112,6 +115,14 @@ public class facturaBean{
 
     public void setFactura(Factura factura) {
         this.factura = factura;
+    }
+
+    public Integer getCantidadProducto2() {
+        return CantidadProducto2;
+    }
+
+    public void setCantidadProducto2(Integer CantidadProducto2) {
+        this.CantidadProducto2 = CantidadProducto2;
     }
    
     //metodo para mostrar datos clientes por medio del dialogClientes
@@ -228,9 +239,10 @@ public class facturaBean{
         }
     }
     }
-    //metodo para mostrar datos clientes por medio del codigo
-    public void agregarDatosProductos2(){
-    this.session=null;
+    //metodo mostrar el dialogo cantidadproducto2
+    public void mostrarCantidadProducto2()
+    {
+        this.session=null;
     this.transaction=null;
     try
     {
@@ -246,17 +258,21 @@ public class facturaBean{
         //evaluacion
         if(this.producto!=null)
         {
+            //solicitar que muestre dialogo cantidad de productos 2
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dialogCantidadProducto2').show();");
+            
+            this.codigoBarra=null;
             //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
+       // this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
        
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
+      //  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
              //limpia
-        this.codigoBarra=null;
+      //     this.codigoBarra=null;
         }else
         {
              //limpia
-            this.codigoBarra=null;
-            this.codigoBarra=null;
+        this.codigoBarra=null;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","Datos del Producto No encontrado"));
         }
         this.transaction.commit();
@@ -277,6 +293,17 @@ public class facturaBean{
             this.session.close();
         }
     }
+    }
+    //metodo para mostrar datos clientes por medio del codigo
+    public void agregarDatosProductos2(){
+   
+        //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
+        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),
+        this.producto.getPrecioVenta(),this.CantidadProducto2,new Double(this.CantidadProducto2*this.producto.getPrecioVenta())));
+        this.CantidadProducto2=null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Producto Agregado"));
+        //llamar al metodo calcular total factura
+        this.totalFacturaVenta();
     }
     //metodo para calcular venta
     public void totalFacturaVenta()

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Producto</title>
+    </h:head>
+    <h:body>
+        
+        <h2 align="center">Registro de Productos</h2>
+        <b:button value="Nuevo" look="primary" onclick="PF('wdlgRegistro').show();"/>
+        <b:container>
+        <h:form id="frmPrincipal">
+            <b:dataTable value="#{productoBean.listaProducto}"
+                         var="td"
+                         id="tablaDatos">
+                <b:dataTableColumn label="Codigo" value="#{td.codProducto}"/>
+                <b:dataTableColumn label="Nombre" value="#{td.nombreProducto}"/>
+                <b:dataTableColumn label="Precio" value="#{td.precioVenta}"/>
+                <b:dataTableColumn label="Stock" value="#{td.stockActual}"/>
+                <b:dataTableColumn label="Modificar">
+                    <b:commandButton value="Modificar" look="warning"/>    
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Borrar">
+                    <b:commandButton value="Borrar" look="danger"/>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+        <h:form id="frmRegistro">
+            <p:dialog id="dlgRegistro" widgetVar="wdlgRegistro" responsive="true" resizable="false"
+                      modal="true" showEffect="explode" hideEffect="explode" header="Registro de Datos">
+                <h:panelGrid id="pnlCarga">
+                    <h:outputText value="Nombre" id="txtNombre"/>
+                    <b:inputText value="#{productoBean.producto.nombreProducto}"/>
+                    <h:outputText value="Venta" id="txtVenta"/>
+                    <b:inputText value="#{productoBean.producto.precioVenta}"/>
+                    <h:outputText value="Min" id="txtminimo"/>
+                    <b:inputText value="#{productoBean.producto.stockMinimo}"/>
+                    <h:outputText value="Actual" id="txtActual"/>
+                    <b:inputText value="#{productoBean.producto.stockActual}"/>
+                    <h:outputText value="Cod.Barra" id="txtBarra"/>
+                    <b:inputText value="#{productoBean.producto.codBarra}"/>
+                </h:panelGrid>
+                <b:commandButton value="Guardar" actionListener="#{productoBean.nuevoProducto()}" update="frmPrincipal  "
+                                 oncomplete="PF('wdlgRegistro').hide();"/>
+                <b:commandButton value="Cancelar"/>
+            </p:dialog>
+        </h:form>    
+        </b:container>
+    </h:body>
+</html>
+
