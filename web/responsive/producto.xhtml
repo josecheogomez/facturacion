@@ -10,7 +10,9 @@
     <h:body>
         
         <h2 align="center">Registro de Productos</h2>
-        <b:button value="Nuevo" look="primary" onclick="PF('wdlgRegistro').show();"/>
+        <b:container id="ctnbotones">
+            <b:button value="Nuevo" look="primary" onclick="PF('wdlgRegistro').show();"/>
+        </b:container>  
         <b:container>
         <h:form id="frmPrincipal">
             <b:dataTable value="#{productoBean.listaProducto}"
