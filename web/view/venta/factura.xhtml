@@ -11,28 +11,29 @@
 
             <ui:define name="content">
                 <h1>Realizar Venta</h1>
-                <p:growl id="msgform"/>
+                <p:growl id="msgform" showDetail="true"/>
                 <h:form id="formFactura">
                     <p:panel header=".'." style="width: 900px; margin: 0 auto; text-align: center;">
                         <p:layout id="capaDatosFactura" style="width: 100%; height: 150px">
                             <p:layoutUnit id="datosClientes" position="center" style="padding: 5px; text-align: justify; font-size: 14px;" size="300">
                                 <h:panelGrid id="gridBuscarDatosClientes" columns="5">
                                     <p:outputLabel value="Codigo Cliente" style="font-weight: bold;"/>
-                                    <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12">
+                                    <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12"
+                                                 converter="#{Integer}" converterMessage="El codigo debe ser numerico">
                                         <p:ajax event="keyup" listener="#{facturaBean.agregarDatosClientes2()}"
-                                                update=":formFactura:gridDatosCliente :formFactura:txtBuscarCliente"/>
+                                                update=":formFactura:gridDatosCliente :formFactura:txtBuscarCliente :msgform"/>
                                     </p:inputText>
                                     <p:commandButton value="..." oncomplete="PF('dialogClientes').show();" update="dlgClientes"/>
                                     <p:outputLabel value="Fecha" style="font-weight: bold;"/>
                                     <p:outputLabel value="Fecha Sistema" style="font-weight: bold"/>
                                 </h:panelGrid>
                                 <p:separator/>
-                                    <h:panelGrid id="gridDatosCliente" columns="2">
-                                        <p:outputLabel value="Nombre" style="font-weight: bold"/>
-                                        <p:outputLabel id="lblNombreCliente" value="#{facturaBean.cliente.nombres} #{facturaBean.cliente.apellidos}"/>
-                                        <p:outputLabel value="Direccion" style="font-weight: bold"/>
-                                        <p:outputLabel id="lblDireccionCliente" value="#{facturaBean.cliente.direccion}"/>
-                                    </h:panelGrid>
+                                <h:panelGrid id="gridDatosCliente" columns="2">
+                                    <p:outputLabel value="Nombre" style="font-weight: bold"/>
+                                    <p:outputLabel id="lblNombreCliente" value="#{facturaBean.cliente.nombres} #{facturaBean.cliente.apellidos}"/>
+                                    <p:outputLabel value="Direccion" style="font-weight: bold"/>
+                                    <p:outputLabel id="lblDireccionCliente" value="#{facturaBean.cliente.direccion}"/>
+                                </h:panelGrid>
                             </p:layoutUnit>
                             <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-align: center; font-size: 14px;" size="300">
                                 <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto">
@@ -70,8 +71,8 @@
                         </p:dataTable>
                         <p:separator/>
                         <h:panelGrid columns="2" style="font-size: 24px; margin: 0 auto" id="gridTotalFactura">
-                           Total Venta $
-                         <p:outputLabel value="#{facturaBean.factura.totalVenta}"/>
+                            Total Venta $
+                            <p:outputLabel value="#{facturaBean.factura.totalVenta}"/>
                         </h:panelGrid>
                         <p:separator/>
                         <p:commandButton value="Registrar" style="width: 150px; height: 60px"/>
@@ -130,13 +131,13 @@
                         <p:outputLabel value="Cantidad:"/>
                         <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
                         <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProductos()}"
-                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto :formFactura:gridTotalFactura" oncomplete="PF('dialogCantidadProducto').hide();PF('dialogProductos').hide();"/>
+                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto :formFactura:gridTotalFactura :msgform" oncomplete="PF('dialogCantidadProducto').hide();PF('dialogProductos').hide();"/>
                     </p:dialog>
                     <p:dialog id="dlgCantidadProducto2" widgetVar="dialogCantidadProducto2" header="Cantidad" modal="true">
                         <p:outputLabel value="Cantidad:"/>
                         <p:inputText id="txtCantidadProducto2" value="#{facturaBean.cantidadProducto2}"/>
                         <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProductos2()}"
-                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto2 :formFactura:gridTotalFactura" oncomplete="PF('dialogCantidadProducto2').hide();"/>
+                                         update=":formFactura:tablaProductoFactura :formFactura:dlgCantidadProducto2 :formFactura:gridTotalFactura :msgform" oncomplete="PF('dialogCantidadProducto2').hide();"/>
                     </p:dialog>
                 </h:form>
             </ui:define>

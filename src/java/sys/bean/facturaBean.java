@@ -31,26 +31,27 @@ import sys.util.HibernateUtil;
  */
 @ManagedBean
 @ViewScoped
-public class facturaBean{
-    Session session=null;
-    Transaction transaction=null;
-   
+public class facturaBean {
+
+    Session session = null;
+    Transaction transaction = null;
+
     private Cliente cliente;
     private Integer codigoCliente;
     private Producto producto;
     private String codigoBarra;
     //detalle de la factura
     private List<Detallefactura> listaDetalleFactura;
-    private Integer CantidadProducto;
+    private String CantidadProducto;
     private String productoSeleccionado;
     private Factura factura;
-    
-    private Integer CantidadProducto2;
-    
+
+    private String CantidadProducto2;
+
     public facturaBean() {
-        listaDetalleFactura=new ArrayList<>();
-        factura=new Factura();
-        
+        listaDetalleFactura = new ArrayList<>();
+        factura = new Factura();
+
     }
 
     public Producto getProducto() {
@@ -93,11 +94,11 @@ public class facturaBean{
         this.listaDetalleFactura = listaDetalleFactura;
     }
 
-    public Integer getCantidadProducto() {
+    public String getCantidadProducto() {
         return CantidadProducto;
     }
 
-    public void setCantidadProducto(Integer CantidadProducto) {
+    public void setCantidadProducto(String CantidadProducto) {
         this.CantidadProducto = CantidadProducto;
     }
 
@@ -117,219 +118,196 @@ public class facturaBean{
         this.factura = factura;
     }
 
-    public Integer getCantidadProducto2() {
+    public String getCantidadProducto2() {
         return CantidadProducto2;
     }
 
-    public void setCantidadProducto2(Integer CantidadProducto2) {
+    public void setCantidadProducto2(String CantidadProducto2) {
         this.CantidadProducto2 = CantidadProducto2;
     }
-   
+
     //metodo para mostrar datos clientes por medio del dialogClientes
-    public void agregarDatosClientes(Integer codCliente){
-    this.session=null;
-    this.transaction=null;
-    try
-    {
-        this.session=HibernateUtil.getSessionFactory().openSession();
-        clienteDao cDao = new clienteDaoImp();
-        this.transaction=this.session.beginTransaction();
-        //obtener datos clientes objeto cliente segun codigo cliente
-        this.cliente=cDao.obtenerClientePorCodigo(this.session, codCliente);
-        this.transaction.commit();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
-    }
-    catch(Exception e)
-    {
-     if(this.transaction != null)
-     {  
-         System.out.println("Error"+e.getMessage());
-         transaction.rollback();
-     }
-    }
-    finally
-    {
-        if(this.session!=null)
-        {
-            this.session.close();
+    public void agregarDatosClientes(Integer codCliente) {
+        this.session = null;
+        this.transaction = null;
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            clienteDao cDao = new clienteDaoImp();
+            this.transaction = this.session.beginTransaction();
+            //obtener datos clientes objeto cliente segun codigo cliente
+            this.cliente = cDao.obtenerClientePorCodigo(this.session, codCliente);
+            this.transaction.commit();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Cliente Agregado"));
+        } catch (Exception e) {
+            if (this.transaction != null) {
+                System.out.println("Error" + e.getMessage());
+                transaction.rollback();
+            }
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
         }
     }
-    }
+
     //metodo para mostrar datos clientes por medio del codigo
-    public void agregarDatosClientes2(){
-    this.session=null;
-    this.transaction=null;
-    try
-    {
-        if(codigoCliente==null)
-        {
-            return;
-        }
-        this.session=HibernateUtil.getSessionFactory().openSession();
-        clienteDao cDao = new clienteDaoImp();
-        this.transaction=this.session.beginTransaction();
-        //obtener datos clientes objeto cliente segun codigo cliente
-        this.cliente=cDao.obtenerClientePorCodigo(this.session, codigoCliente);
-        if(this.cliente!=null)
-        {
-            this.codigoCliente=null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
-        }else
-        {
-            this.codigoCliente=null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","Datos del Cliente No encontrado"));
-        }
-        this.transaction.commit();
-        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
-    }
-    catch(Exception e)
-    {
-     if(this.transaction != null)
-     {  
-         System.out.println("Error"+e.getMessage());
-         transaction.rollback();
-     }
-    }
-    finally
-    {
-        if(this.session!=null)
-        {
-            this.session.close();
+    public void agregarDatosClientes2() {
+        this.session = null;
+        this.transaction = null;
+        try {
+            if (codigoCliente == null) {
+                return;
+            }
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            clienteDao cDao = new clienteDaoImp();
+            this.transaction = this.session.beginTransaction();
+            //obtener datos clientes objeto cliente segun codigo cliente
+            this.cliente = cDao.obtenerClientePorCodigo(this.session, codigoCliente);
+            if (this.cliente != null) {
+                this.codigoCliente = null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Cliente Agregado"));
+            } else {
+                this.codigoCliente = null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datos del Cliente No encontrado"));
+            }
+            this.transaction.commit();
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+        } catch (Exception e) {
+            if (this.transaction != null) {
+                System.out.println("Error" + e.getMessage());
+                transaction.rollback();
+            }
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
         }
     }
+
+    //metodo para solicitar cantidad producto
+    public void pedirCantidadProducto(String codBarra) {
+        this.productoSeleccionado = codBarra;
     }
-     //metodo para solicitar cantidad producto
-    public void pedirCantidadProducto(String codBarra)
-    {
-        this.productoSeleccionado=codBarra;
-    }
+
     //metodo para agregar datos productos por medio del dialogProductos
-    public void agregarDatosProductos(){
-    this.session=null;
-    this.transaction=null;
-    try
-    {
-        this.session=HibernateUtil.getSessionFactory().openSession();
-        productoDao pDao = new productoDaoImp();
-        this.transaction=this.session.beginTransaction();
-        //obtener datos producot
-        this.producto=pDao.obtenerProductoPorCodBarra(this.session, productoSeleccionado);
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),
-        this.producto.getPrecioVenta(),this.CantidadProducto,new Double(this.CantidadProducto*this.producto.getPrecioVenta())));
-        this.transaction.commit();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
-        //llamada al metodo totalFacturaVenta
-        this.totalFacturaVenta();
-        //limpiamos cantidad producto
-        this.CantidadProducto=null;
-    }
-    catch(Exception e)
-    {
-     if(this.transaction != null)
-     {  
-         System.out.println("Error"+e.getMessage());
-         transaction.rollback();
-     }
-    }
-    finally
-    {
-        if(this.session!=null)
-        {
-            this.session.close();
+    public void agregarDatosProductos() {
+        this.session = null;
+        this.transaction = null;
+        try {
+            //comienza la condicion para validar cantidad de productos
+            if (!(this.CantidadProducto.matches("[0-9]*")) || this.CantidadProducto.equals("0") || this.CantidadProducto.equals("")) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La cantidad es incorrecta"));
+                this.CantidadProducto = "";
+            } else {
+                this.session = HibernateUtil.getSessionFactory().openSession();
+                productoDao pDao = new productoDaoImp();
+                this.transaction = this.session.beginTransaction();
+                //obtener datos producot
+                this.producto = pDao.obtenerProductoPorCodBarra(this.session, productoSeleccionado);
+                this.listaDetalleFactura.add(new Detallefactura(null, null, this.producto.getCodBarra(), this.producto.getNombreProducto(),
+                        this.producto.getPrecioVenta(), Integer.parseInt(CantidadProducto), new Double(Integer.parseInt(CantidadProducto) * this.producto.getPrecioVenta())));
+                this.transaction.commit();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Cliente Agregado"));
+                //llamada al metodo totalFacturaVenta
+                this.totalFacturaVenta();
+                //limpiamos cantidad producto
+                this.CantidadProducto = "";
+            }
+
+        } catch (Exception e) {
+            if (this.transaction != null) {
+                System.out.println("Error" + e.getMessage());
+                transaction.rollback();
+            }
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
         }
     }
-    }
+
     //metodo mostrar el dialogo cantidadproducto2
-    public void mostrarCantidadProducto2()
-    {
-        this.session=null;
-    this.transaction=null;
-    try
-    {
-        if(codigoBarra.equals(""))
-        {
-            return;
-        }
-        this.session=HibernateUtil.getSessionFactory().openSession();
-        productoDao pDao = new productoDaoImp();
-        this.transaction=this.session.beginTransaction();
-        //obtener datos clientes objeto producto segun codigo barra
-        this.producto=pDao.obtenerProductoPorCodBarra(this.session, codigoBarra);
-        //evaluacion
-        if(this.producto!=null)
-        {
-            //solicitar que muestre dialogo cantidad de productos 2
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('dialogCantidadProducto2').show();");
-            
-            this.codigoBarra=null;
+    public void mostrarCantidadProducto2() {
+        this.session = null;
+        this.transaction = null;
+        try {
+            if (codigoBarra.equals("")) {
+                return;
+            }
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            productoDao pDao = new productoDaoImp();
+            this.transaction = this.session.beginTransaction();
+            //obtener datos clientes objeto producto segun codigo barra
+            this.producto = pDao.obtenerProductoPorCodBarra(this.session, codigoBarra);
+            //evaluacion
+            if (this.producto != null) {
+                //solicitar que muestre dialogo cantidad de productos 2
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dialogCantidadProducto2').show();");
+
+                this.codigoBarra = null;
             //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
-       // this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
-       
-      //  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
-             //limpia
-      //     this.codigoBarra=null;
-        }else
-        {
-             //limpia
-        this.codigoBarra=null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","Datos del Producto No encontrado"));
-        }
-        this.transaction.commit();
-        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
-    }
-    catch(Exception e)
-    {
-     if(this.transaction != null)
-     {  
-         System.out.println("Error"+e.getMessage());
-         transaction.rollback();
-     }
-    }
-    finally
-    {
-        if(this.session!=null)
-        {
-            this.session.close();
+                // this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),this.producto.getPrecioVenta(),0,new Double(0)));
+
+                //  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Producto Agregado"));
+                //limpia
+                //     this.codigoBarra=null;
+            } else {
+                //limpia
+                this.codigoBarra = null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datos del Producto No encontrado"));
+            }
+            this.transaction.commit();
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto","Datos del Cliente Agregado"));
+        } catch (Exception e) {
+            if (this.transaction != null) {
+                System.out.println("Error" + e.getMessage());
+                transaction.rollback();
+            }
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
         }
     }
-    }
+
     //metodo para mostrar datos clientes por medio del codigo
-    public void agregarDatosProductos2(){
-   
-        //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
-        this.listaDetalleFactura.add(new Detallefactura(null,null, this.producto.getCodBarra(),this.producto.getNombreProducto(),
-        this.producto.getPrecioVenta(),this.CantidadProducto2,new Double(this.CantidadProducto2*this.producto.getPrecioVenta())));
-        this.CantidadProducto2=null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Producto Agregado"));
-        //llamar al metodo calcular total factura
-        this.totalFacturaVenta();
-    }
-    //metodo para calcular venta
-    public void totalFacturaVenta()
-    {
-        Double totalFacturaVenta = new Double("0");
-        try
-        {
-           for(Detallefactura item: listaDetalleFactura)
-           {
-              /*Esta porqueria no funciono
-               BigDecimal totalVentaPorProducto=item.getPrecioVenta() * ((item.getCantidad()));
-              item.setTotal(totalVentaPorProducto);
-              totalFacturaVenta=totalFacturaVenta.add(totalVentaPorFactura);*/
-               /*esto lo cree yo jajaja
-               primero multiplica el precio del producto por la cantidad*/
-               float totalVentaPorProducto=item.getPrecioVenta()*item.getCantidad();
-               /*comienza a trabajar el bucle*/
-               item.setTotal(totalVentaPorProducto);
-               /*se define el valor del total*/
-               totalFacturaVenta=Double.sum(totalFacturaVenta,totalVentaPorProducto);
-           } 
-          this.factura.setTotalVenta(totalFacturaVenta);
+    public void agregarDatosProductos2() {
+
+        if (!(this.CantidadProducto2.matches("[0-9]*")) || this.CantidadProducto2.equals("0") || this.CantidadProducto2.equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La cantidad es incorrecta"));
+            this.CantidadProducto2 = "";
+        } else {
+            //aqui se cargaran los datos del producto despues de tipiar el codigodeBarra
+            this.listaDetalleFactura.add(new Detallefactura(null, null, this.producto.getCodBarra(), this.producto.getNombreProducto(),
+                    this.producto.getPrecioVenta(), Integer.parseInt(CantidadProducto2), new Double(Integer.parseInt(CantidadProducto2) * this.producto.getPrecioVenta())));
+            this.CantidadProducto2 = "";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Producto Agregado"));
+            //llamar al metodo calcular total factura
+            this.totalFacturaVenta();
         }
-        catch(Exception e)
-        {
-            System.out.println("Error"+e.getMessage());
+    }
+
+    //metodo para calcular venta
+    public void totalFacturaVenta() {
+        Double totalFacturaVenta = new Double("0");
+        try {
+            for (Detallefactura item : listaDetalleFactura) {
+                /*Esta porqueria no funciono
+                 BigDecimal totalVentaPorProducto=item.getPrecioVenta() * ((item.getCantidad()));
+                 item.setTotal(totalVentaPorProducto);
+                 totalFacturaVenta=totalFacturaVenta.add(totalVentaPorFactura);*/
+                /*esto lo cree yo jajaja
+                 primero multiplica el precio del producto por la cantidad*/
+                float totalVentaPorProducto = item.getPrecioVenta() * item.getCantidad();
+                /*comienza a trabajar el bucle*/
+                item.setTotal(totalVentaPorProducto);
+                /*se define el valor del total*/
+                totalFacturaVenta = Double.sum(totalFacturaVenta, totalVentaPorProducto);
+            }
+            this.factura.setTotalVenta(totalFacturaVenta);
+        } catch (Exception e) {
+            System.out.println("Error" + e.getMessage());
         }
     }
 }
