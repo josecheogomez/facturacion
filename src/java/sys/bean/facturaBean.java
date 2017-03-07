@@ -207,7 +207,7 @@ public class facturaBean {
                 this.listaDetalleFactura.add(new Detallefactura(null, null, this.producto.getCodBarra(), this.producto.getNombreProducto(),
                         this.producto.getPrecioVenta(), Integer.parseInt(CantidadProducto), new Double(Integer.parseInt(CantidadProducto) * this.producto.getPrecioVenta())));
                 this.transaction.commit();
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del Cliente Agregado"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto Agregado"));
                 //llamada al metodo totalFacturaVenta
                 this.totalFacturaVenta();
                 //limpiamos cantidad producto
@@ -308,6 +308,27 @@ public class facturaBean {
             this.factura.setTotalVenta(totalFacturaVenta);
         } catch (Exception e) {
             System.out.println("Error" + e.getMessage());
+        }
+    }
+    //metodo para quitar producto de la factura
+    public void quitarProductoDetalleFactura(String codBarra, Integer filaSeleccionada) {
+        try {
+            int i = 0;
+            for (Detallefactura item : this.listaDetalleFactura) {
+                //pregunta si el codigo de barra y la posicion del registro coinciden
+                //por que o sino elimina el primero que encuentra y no en el que se posiciona
+                if (item.getCodBarra().equals(codBarra)&&filaSeleccionada.equals(i)) {
+                    this.listaDetalleFactura.remove(i);
+                    break;
+                }
+                i++;
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Información", "Se retiro el producto de la factura"));
+            //recalcula el valor de la factura para actualizar el total a vender
+            this.totalFacturaVenta();
+            
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
         }
     }
 }

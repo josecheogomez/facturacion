@@ -52,7 +52,7 @@
                             <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos"/>
                         </h:panelGrid>
                         <p:separator/>
-                        <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item">
+                        <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item" rowIndexVar="rowIndex">
                             <p:column headerText="Cod.Barra">
                                 <h:outputText value="#{item.codBarra}"/>
                             </p:column>
@@ -67,6 +67,14 @@
                             </p:column>
                             <p:column headerText="Total">
                                 Gs <h:outputText value="#{item.total}"/>
+                            </p:column>
+                            <p:column headerText="Editar Cantidad">
+                                <p:commandLink value="$" title="Editar Cantidad" style="text-decoration: none;"/>
+                            </p:column>
+                           <p:column headerText="Quitar Producto">
+                                <p:commandLink value="X" title="Quitar Producto" style="text-decoration: none;"
+                                               actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codBarra, rowIndex)}"
+                                               update=":formFactura:tablaProductoFactura :formFactura:gridTotalFactura"/>
                             </p:column>
                         </p:dataTable>
                         <p:separator/>
