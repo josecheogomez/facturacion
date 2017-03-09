@@ -17,8 +17,10 @@ import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import sys.dao.clienteDao;
+import sys.dao.facturaDao;
 import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
+import sys.imp.facturaDaoImp;
 import sys.imp.productoDaoImp;
 import sys.model.Cliente;
 import sys.model.Detallefactura;
@@ -48,6 +50,8 @@ public class facturaBean {
     private Factura factura;
 
     private String CantidadProducto2;
+    private Long numeroFactura;
+    private BigDecimal totalVentaFactura;
 
     public facturaBean() {
         listaDetalleFactura = new ArrayList<>();
@@ -126,6 +130,23 @@ public class facturaBean {
     public void setCantidadProducto2(String CantidadProducto2) {
         this.CantidadProducto2 = CantidadProducto2;
     }
+
+    public Long getNumeroFactura() {
+        return numeroFactura;
+    }
+
+    public void setNumeroFactura(Long numeroFactura) {
+        this.numeroFactura = numeroFactura;
+    }
+
+    public BigDecimal getTotalVentaFactura() {
+        return totalVentaFactura;
+    }
+
+    public void setTotalVentaFactura(BigDecimal totalVentaFactura) {
+        this.totalVentaFactura = totalVentaFactura;
+    }
+    
 
     //metodo para mostrar datos clientes por medio del dialogClientes
     public void agregarDatosClientes(Integer codCliente) {
@@ -291,7 +312,7 @@ public class facturaBean {
 
     //metodo para calcular venta
     public void totalFacturaVenta() {
-        Double totalFacturaVenta = new Double("0");
+        Double totalVentaFactura = new Double("0");
         try {
             for (Detallefactura item : listaDetalleFactura) {
                 /*Esta porqueria no funciono
@@ -304,9 +325,9 @@ public class facturaBean {
                 /*comienza a trabajar el bucle*/
                 item.setTotal(totalVentaPorProducto);
                 /*se define el valor del total*/
-                totalFacturaVenta = Double.sum(totalFacturaVenta, totalVentaPorProducto);
+                totalVentaFactura = Double.sum(totalVentaFactura, totalVentaPorProducto);
             }
-            this.factura.setTotalVenta(totalFacturaVenta);
+            this.factura.setTotalVenta(totalVentaFactura);
         } catch (Exception e) {
             System.out.println("Error" + e.getMessage());
         }
@@ -341,5 +362,37 @@ public class facturaBean {
      
     public void onRowCancel(RowEditEvent event) {
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información","Se Cancelo la Modificación"));
+    }
+    
+    //method para generar numeracion factura
+    public void numeroFactura() {
+        this.session = null;
+        this.transaction = null;
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = this.session.beginTransaction();
+            facturaDao fDao = new facturaDaoImp();
+            //verificar si hay registros en la base de datos
+            this.numeroFactura = fDao.obtenerTotalRegistrosEnFactura(this.session);
+            if (this.numeroFactura <= 0 || this.numeroFactura == null) {
+                this.numeroFactura = Long.valueOf("1");
+            }else
+            {
+                //recuperamos el ultimo registro que exista en la tabla factura
+            this.factura=fDao.obtenerUltimoRegistro(this.session);
+            this.numeroFactura=Long.valueOf(this.factura.getNumeroFactura()+1);
+            this.totalVentaFactura=new BigDecimal("0");
+            }
+            this.transaction.commit();
+        } catch (Exception e) {
+            if (this.transaction != null) {
+                this.transaction.rollback();
+            }
+            System.out.println(e.getMessage());
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
+        }
     }
 }

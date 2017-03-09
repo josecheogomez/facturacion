@@ -12,6 +12,12 @@
 
             <ui:define name="content">
                 <h1>Realizar Venta</h1>
+                <h:form>
+                    <h:panelGrid width="900px" style="margin: 0 auto; background-color: #AFAFAF">
+                        <p:commandButton value="Nueva Venta" actionListener="#{facturaBean.numeroFactura}"
+                                         style="width: 150px; height: 60px" update=":formFactura"/>
+                    </h:panelGrid>
+                </h:form>
                 <p:growl id="msgform" showDetail="true"/>
                 <h:form id="formFactura">
                     <p:panel header=".'." style="width: 900px; margin: 0 auto; text-align: center;">
@@ -39,7 +45,7 @@
                             <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-align: center; font-size: 14px;" size="300">
                                 <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto">
                                     Factura
-                                    <p:outputLabel value="0001"/>
+                                    <p:outputLabel value="#{facturaBean.numeroFactura}"/>
                                 </h:panelGrid>
                             </p:layoutUnit>
                         </p:layout>
@@ -100,7 +106,7 @@
                         <p:separator/>
                         <h:panelGrid columns="2" style="font-size: 24px; margin: 0 auto" id="gridTotalFactura">
                             Total Venta $
-                            <p:outputLabel value="#{facturaBean.factura.totalVenta}"/>
+                            <p:outputLabel value="#{facturaBean.totalVentaFactura}"/>
                         </h:panelGrid>
                         <p:separator/>
                         <p:commandButton value="Registrar" style="width: 150px; height: 60px"/>
