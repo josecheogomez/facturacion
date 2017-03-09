@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -52,7 +53,10 @@
                             <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos"/>
                         </h:panelGrid>
                         <p:separator/>
-                        <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item" rowIndexVar="rowIndex">
+                        <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item" rowIndexVar="rowIndex"
+                                     editable="true">
+                            <p:ajax event="rowEdit" listener="#{facturaBean.onRowEdit}" update=":formFactura:tablaProductoFactura :formFactura:gridTotalFactura :msgform" />
+                            <p:ajax event="rowEditCancel" listener="#{facturaBean.onRowCancel}" update=":formFactura:tablaProductoFactura :formFactura:gridTotalFactura :msgform" />
                             <p:column headerText="Cod.Barra">
                                 <h:outputText value="#{item.codBarra}"/>
                             </p:column>
@@ -60,7 +64,20 @@
                                 <h:outputText value="#{item.nombreProducto}"/>
                             </p:column>
                             <p:column headerText="Cantidad">
-                                <h:outputText value="#{item.cantidad}"/> 
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.cantidad}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{item.cantidad}" label="Cantidad Producto"
+                                                     rendered="true" requiredMessage="Es necesario una cantidad"
+                                                     converter="#{Integer}" converterMessage="Cantidad Invalida"
+                                                     validatorMessage="La cantidad debe ser mayor a 0">
+                                            <f:validateLongRange minimum="1"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                    
+                                </p:cellEditor> 
                             </p:column>
                             <p:column headerText="Precio Venta">
                                 Gs <h:outputText value="#{item.precioVenta}"/>
@@ -69,9 +86,12 @@
                                 Gs <h:outputText value="#{item.total}"/>
                             </p:column>
                             <p:column headerText="Editar Cantidad">
+                                <p:rowEditor/>
+                                <!--
                                 <p:commandLink value="$" title="Editar Cantidad" style="text-decoration: none;"/>
+                                -->
                             </p:column>
-                           <p:column headerText="Quitar Producto">
+                            <p:column headerText="Quitar Producto">
                                 <p:commandLink value="X" title="Quitar Producto" style="text-decoration: none;"
                                                actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codBarra, rowIndex)}"
                                                update=":formFactura:tablaProductoFactura :formFactura:gridTotalFactura"/>

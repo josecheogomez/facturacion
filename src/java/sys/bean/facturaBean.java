@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import sys.dao.clienteDao;
 import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
@@ -330,5 +331,15 @@ public class facturaBean {
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
         }
+    }
+    //metodo para editar detalle factura
+    public void onRowEdit(RowEditEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información","Se Modifico la Cantidad"));
+        //invocar method calcular total
+        this.totalFacturaVenta();
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información","Se Cancelo la Modificación"));
     }
 }
