@@ -109,9 +109,13 @@
                             <p:outputLabel value="#{facturaBean.totalVentaFactura}"/>
                         </h:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Registrar" style="width: 150px; height: 60px"/>
+                        <p:commandButton value="Registrar" actionListener="#{facturaBean.guardarVenta()}"
+                                         style="width: 150px; height: 60px"
+                                         update=":formFactura"/>
                         <p:commandButton value="Imprimir" style="width: 150px; height: 60px"/>
-                        <p:commandButton value="Cancelar" style="width: 150px; height: 60px"/>
+                        <p:commandButton value="Cancelar" action="#{facturaBean.limpiarFactura()}"
+                                         style="width: 150px; height: 60px"
+                                         update=":formFactura"/>
                     </p:panel>
                     <!--dialgo para mostrar datos del sistema -->
                     <p:dialog id="dlgClientes" widgetVar="dialogClientes" modal="true" resizable="false"

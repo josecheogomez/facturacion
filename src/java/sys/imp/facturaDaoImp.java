@@ -29,5 +29,12 @@ public class facturaDaoImp implements facturaDao{
         Query q=session.createQuery(hql);
         return (Long) q.uniqueResult();
     }
+
+    @Override
+    public boolean guardarVentaFactura(Session session, Factura factura) throws Exception {
+         //To change body of generated methods, choose Tools | Templates.
+    session.save(factura);
+    return true;
+    }
     
 }

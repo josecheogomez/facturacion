@@ -18,5 +18,7 @@ public interface facturaDao {
     public Factura obtenerUltimoRegistro(Session session)throws Exception;
     //averiguar si hay registro en en la tabla factura
     public Long obtenerTotalRegistrosEnFactura(Session session);
+    //metodo para guardar registro enla DB
+    public boolean guardarVentaFactura(Session session,Factura factura)throws Exception;
     
 }
