@@ -326,7 +326,7 @@ public class facturaBean {
 
     //metodo para calcular venta
     public void totalFacturaVenta() {
-        Double totalVentaFactura = new Double("0");
+        this.totalVentaFactura = new Double("0");
         try {
             for (Detallefactura item : listaDetalleFactura) {
                 /*Esta porqueria no funciono
