@@ -7,6 +7,8 @@ package sys.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -57,7 +59,11 @@ public class facturaBean {
     private Double totalVentaFactura;
     
     private Vendedor vendedor;
-
+    //metodos activar desactiva controles factura
+    private boolean enable;
+    //var fecha sistema
+    private String fechaSistema;
+    
     public facturaBean() {
         listaDetalleFactura = new ArrayList<>();
         factura = new Factura();
@@ -394,7 +400,8 @@ public class facturaBean {
             {
                 //recuperamos el ultimo registro que exista en la tabla factura
             this.factura=fDao.obtenerUltimoRegistro(this.session);
-            this.numeroFactura=Long.valueOf(this.factura.getNumeroFactura()+1);
+            this.numeroFactura=Long.valueOf(this.factura.getNumeroFactura())+1;
+             //this.numeroFactura= Long.parseLong(factura.getNumeroFactura())+1;
             this.totalVentaFactura=new Double("0");
             }
             this.transaction.commit();
@@ -417,6 +424,8 @@ public class facturaBean {
         this.listaDetalleFactura=new ArrayList<>();
         this.numeroFactura=null;
         this.totalVentaFactura=null;
+        //llamar method para desactivar controles
+        this.disableBooton();
     }
     //method para registrar venta
     public void guardarVenta()
@@ -471,4 +480,29 @@ public class facturaBean {
          }
         }
     }
+    
+    //metodos para desactivar y activar controles
+    public boolean isEnable() {
+        return enable;
+    }
+    public void enableBooton()
+    {
+    enable=true;
+    }
+    public void disableBooton()
+    {
+    enable=false;
+    }
+    //recuperar fecha del sistema
+
+    public String getFechaSistema() {
+        Calendar fecha=new GregorianCalendar();
+        int anio=fecha.get(Calendar.YEAR);
+        int mes=fecha.get(Calendar.MONTH);
+        int dia=fecha.get(Calendar.DAY_OF_MONTH);
+        
+        this.fechaSistema=(dia+"/"+(mes+1)+"/"+anio);
+        return fechaSistema;
+    }
+    
 }

@@ -15,7 +15,7 @@
                 <h:form>
                     <h:panelGrid width="900px" style="margin: 0 auto; background-color: #AFAFAF">
                         <p:commandButton value="Nueva Venta" actionListener="#{facturaBean.numeroFactura}"
-                                         style="width: 150px; height: 60px" update=":formFactura"/>
+                                         style="width: 150px; height: 60px" update=":formFactura" action="#{facturaBean.enableBooton()}"/>
                     </h:panelGrid>
                 </h:form>
                 <p:growl id="msgform" showDetail="true"/>
@@ -26,13 +26,14 @@
                                 <h:panelGrid id="gridBuscarDatosClientes" columns="5">
                                     <p:outputLabel value="Codigo Cliente" style="font-weight: bold;"/>
                                     <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12"
-                                                 converter="#{Integer}" converterMessage="El codigo debe ser numerico">
+                                                 converter="#{Integer}" converterMessage="El codigo debe ser numerico"
+                                                 disabled="#{!facturaBean.enable}">
                                         <p:ajax event="keyup" listener="#{facturaBean.agregarDatosClientes2()}"
                                                 update=":formFactura:gridDatosCliente :formFactura:txtBuscarCliente :msgform"/>
                                     </p:inputText>
-                                    <p:commandButton value="..." oncomplete="PF('dialogClientes').show();" update="dlgClientes"/>
-                                    <p:outputLabel value="Fecha" style="font-weight: bold;"/>
-                                    <p:outputLabel value="Fecha Sistema" style="font-weight: bold"/>
+                                    <p:commandButton value="..." oncomplete="PF('dialogClientes').show();" update="dlgClientes" disabled="#{!facturaBean.enable}"/>
+                                    <p:outputLabel value="Fecha:" style="font-weight: bold;"/>
+                                    <p:outputLabel value="#{facturaBean.fechaSistema}" style="font-weight: bold"/>
                                 </h:panelGrid>
                                 <p:separator/>
                                 <h:panelGrid id="gridDatosCliente" columns="2">
@@ -52,11 +53,11 @@
                         <p:separator/>
                         <h:panelGrid id="gridBuscarProducto" columns="3">
                             <p:outputLabel value="Codigo de Barra"/>
-                            <p:inputText id="txtBuscarProductoCodigoBarra" size="12" value="#{facturaBean.codigoBarra}">
+                            <p:inputText id="txtBuscarProductoCodigoBarra" size="12" value="#{facturaBean.codigoBarra}" disabled="#{!facturaBean.enable}">
                                 <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto2()}"
                                         update=":formFactura:gridBuscarProducto"/>
                             </p:inputText>
-                            <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos"/>
+                            <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos" disabled="#{!facturaBean.enable}"/>
                         </h:panelGrid>
                         <p:separator/>
                         <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item" rowIndexVar="rowIndex"
@@ -111,11 +112,11 @@
                         <p:separator/>
                         <p:commandButton value="Registrar" actionListener="#{facturaBean.guardarVenta()}"
                                          style="width: 150px; height: 60px"
-                                         update=":formFactura"/>
-                        <p:commandButton value="Imprimir" style="width: 150px; height: 60px"/>
+                                         update=":formFactura" disabled="#{!facturaBean.enable}" action="#{facturaBean.disableBooton()}"/>
+                        <p:commandButton value="Imprimir" style="width: 150px; height: 60px" disabled="#{!facturaBean.enable}"/>
                         <p:commandButton value="Cancelar" action="#{facturaBean.limpiarFactura()}"
                                          style="width: 150px; height: 60px"
-                                         update=":formFactura"/>
+                                         update=":formFactura" disabled="#{!facturaBean.enable}"/>
                     </p:panel>
                     <!--dialgo para mostrar datos del sistema -->
                     <p:dialog id="dlgClientes" widgetVar="dialogClientes" modal="true" resizable="false"
