@@ -86,6 +86,7 @@ public class facturaBean {
     public void setCodigoBarra(String codigoBarra) {
         this.codigoBarra = codigoBarra;
     }
+    //ghoila
 
     public Cliente getCliente() {
         return cliente;

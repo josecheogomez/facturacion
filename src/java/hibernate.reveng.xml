@@ -7,4 +7,5 @@
   <table-filter match-name="cliente"/>
   <table-filter match-name="producto"/>
   <table-filter match-name="detallefactura"/>
+  <table-filter match-name="usuario"/>
 </hibernate-reverse-engineering>
