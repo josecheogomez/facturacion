@@ -13,30 +13,17 @@ public class Usuario  implements java.io.Serializable {
 
      private Integer codUsuario;
      private String nombreUsuario;
-     private float precioVenta;
-     private int stockMinimo;
-     private int stockActual;
-     private String codBarra;
-     private Set<Detallefactura> detallefacturas = new HashSet<Detallefactura>(0);
-
+     private String password;
+     private int codVendedor;
+    
     public Usuario() {
     }
 
 	
-    public Usuario(String nombreUsuario, float precioVenta, int stockMinimo, int stockActual, String codBarra) {
+    public Usuario(String nombreUsuario, String password, int codVendedor) {
         this.nombreUsuario = nombreUsuario;
-        this.precioVenta = precioVenta;
-        this.stockMinimo = stockMinimo;
-        this.stockActual = stockActual;
-        this.codBarra = codBarra;
-    }
-    public Usuario(String nombreUsuario, long precioVenta, int stockMinimo, int stockActual, String codBarra, Set<Detallefactura> detallefacturas) {
-       this.nombreUsuario = nombreUsuario;
-       this.precioVenta = precioVenta;
-       this.stockMinimo = stockMinimo;
-       this.stockActual = stockActual;
-       this.codBarra = codBarra;
-       this.detallefacturas = detallefacturas;
+        this.password=password;
+        this.codVendedor=codVendedor;
     }
    
     public Integer getCodUsuario() {
@@ -53,41 +40,23 @@ public class Usuario  implements java.io.Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-    public float getPrecioVenta() {
-        return  this.precioVenta;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getCodVendedor() {
+        return codVendedor;
+    }
+
+    public void setCodVendedor(int codVendedor) {
+        this.codVendedor = codVendedor;
     }
     
-    public void setPrecioVenta(float precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-    public int getStockMinimo() {
-        return this.stockMinimo;
-    }
-    
-    public void setStockMinimo(int stockMinimo) {
-        this.stockMinimo = stockMinimo;
-    }
-    public int getStockActual() {
-        return this.stockActual;
-    }
-    
-    public void setStockActual(int stockActual) {
-        this.stockActual = stockActual;
-    }
-    public String getCodBarra() {
-        return this.codBarra;
-    }
-    
-    public void setCodBarra(String codBarra) {
-        this.codBarra = codBarra;
-    }
-    public Set<Detallefactura> getDetallefacturas() {
-        return this.detallefacturas;
-    }
-    
-    public void setDetallefacturas(Set<Detallefactura> detallefacturas) {
-        this.detallefacturas = detallefacturas;
-    }
 
 
 

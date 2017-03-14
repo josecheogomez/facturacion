@@ -12,19 +12,21 @@
     </h:head>
     <h:body>
         <div class="login">
-            <h:form>            
+            <h:form id="formLogin">            
             <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
             <p:panel header="Login Sistema" widgetVar="dlg">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="usuario" value="Usuario" />
-                    <p:inputText id="username" value="#{userLoginView.username}" placeholder="Usuario" required="true" label="username" />
+                    <p:inputText id="usuario" value="#{loginBean.usuario.nombreUsuario}" placeholder="Usuario" required="true" label="username" 
+                                 requiredMessage="Escriba el usuario por favor" />
 
                     <h:outputLabel for="password" value="Password:" />
-                    <p:password id="password" value="#{userLoginView.password}" placeholder="Password" required="true" label="password" />
+                    <p:password id="password" value="#{loginBean.usuario.password}" placeholder="Password" required="true" label="password" 
+                                requiredMessage="Escriba el password por favor" />
 
                     <f:facet name="footer">
-                        <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
+                        <p:commandButton value="Login" update="growl :formLogin" actionListener="#{loginBean.login(event)}"
                                          oncomplete="handleLoginRequest(xhr, status, args)" />
                     </f:facet>  
                 </h:panelGrid>
@@ -34,11 +36,10 @@
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
                 if(args.validationFailed || !args.loggedIn) {
-                    PF('dlg').jq.effect("shake", {times:5}, 100);
+                    jQuery('#formLogin').effect("shake", {times:3}, 350);
                 }
                 else {
-                    PF('dlg').hide();
-                    $('#loginLink').fadeOut();
+                    location.href=args.ruta;
                 }
             }
         </script>

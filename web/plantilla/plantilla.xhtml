@@ -23,7 +23,7 @@
                         <p:submenu label="Inicio" icon="ui-icon-document">
                             <p:menuitem value="Pagina Inicio" url="#" />
                             <p:separator />
-                            <p:menuitem value="Salir" url="#" />
+                            <p:menuitem value="Salir" action="#{loginBean.cerrarSession()}"/>
                         </p:submenu>
 
                         <p:submenu label="Cliente" icon="ui-icon-pencil">

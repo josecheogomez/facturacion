@@ -11,8 +11,8 @@
         <property name="nombreUsuario" type="string">
             <column name="nombreUsuario" length="45" not-null="true" />
         </property>
-        <property name="password" type="integer">
-            <column name="password" precision="45" scale="0" not-null="true" />
+        <property name="password" type="string">
+            <column name="password" length="255" not-null="true" />
         </property>
         <property name="codVendedor" type="int">
             <column name="codVendedor" not-null="true" />
