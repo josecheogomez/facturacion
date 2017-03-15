@@ -6,6 +6,7 @@
 package sys.bean;
 
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -22,7 +23,7 @@ import sys.model.Usuario;
  */
 @ManagedBean
 @SessionScoped
-public class loginBean {
+public class loginBean implements Serializable{
 
     private Usuario usuario;
     private String nombreUsuario;
