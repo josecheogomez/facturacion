@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.Session;
@@ -43,6 +44,10 @@ public class facturaBean {
 
     Session session = null;
     Transaction transaction = null;
+    //accedemos a las propiedades de otro bean
+    @ManagedProperty("#{loginBean}")
+    
+    private loginBean lBean;
 
     private Cliente cliente;
     private Integer codigoCliente;
@@ -166,6 +171,14 @@ public class facturaBean {
 
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
+    }
+
+    public loginBean getlBean() {
+        return lBean;
+    }
+
+    public void setlBean(loginBean lBean) {
+        this.lBean = lBean;
     }
     
 
@@ -433,7 +446,7 @@ public class facturaBean {
     {
         this.session=null;
         this.transaction=null;
-        this.vendedor.setCodVendedor(2);
+        this.vendedor.setCodVendedor(lBean.getUsuario().getVendedor().getCodVendedor());
         try
         {
             this.session=HibernateUtil.getSessionFactory().openSession();

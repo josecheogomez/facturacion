@@ -16,6 +16,16 @@
         <div id="general">
             <div id="top">
             <ui:insert name="top">
+                <h1>Ejemplos hibernate y jsf</h1>
+                <div id="sessionUsuario">
+                    <span>
+                        <h:form>
+                            <p:outputLabel value="Hola, "/>
+                            <p:outputLabel value="#{loginBean.usuario.vendedor.nombres} "/>
+                            <p:commandButton id="salir" value="Salir" action="#{loginBean.cerrarSession()}"/>
+                        </h:form>
+                    </span>
+                </div>
                 <div id="menuPrincipal">
                 <h:form>
                     <p:growl id="growlPrincipal"/>
