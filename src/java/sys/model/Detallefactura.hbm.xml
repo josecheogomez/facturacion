@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01/11/2016 11:18:29 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/03/2017 05:24:45 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="sys.model.Detallefactura" table="detallefactura" catalog="facturacion" optimistic-lock="version">
         <id name="codDetalle" type="java.lang.Integer">
@@ -15,10 +15,10 @@
             <column name="codProducto" not-null="true" />
         </many-to-one>
         <property name="codBarra" type="string">
-            <column name="codBarra" not-null="true" />
+            <column name="codBarra" length="45" not-null="true" />
         </property>
         <property name="nombreProducto" type="string">
-            <column name="nombreProducto" not-null="true" />
+            <column name="nombreProducto" length="45" not-null="true" />
         </property>
         <property name="precioVenta" type="float">
             <column name="precioVenta" precision="10" scale="0" not-null="true" />
@@ -27,7 +27,7 @@
             <column name="cantidad" not-null="true" />
         </property>
         <property name="total" type="double">
-            <column name="total" not-null="true" />
+            <column name="total" precision="22" scale="0" />
         </property>
     </class>
 </hibernate-mapping>

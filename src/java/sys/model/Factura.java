@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 01/11/2016 11:18:28 AM by Hibernate Tools 4.3.1
+// Generated 14/03/2017 05:24:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -24,14 +24,12 @@ public class Factura  implements java.io.Serializable {
     }
 
 	
-    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura, double totalVenta, Date fechaRegistro) {
+    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura) {
         this.cliente = cliente;
         this.vendedor = vendedor;
         this.numeroFactura = numeroFactura;
-        this.totalVenta = totalVenta;
-        this.fechaRegistro = fechaRegistro;
     }
-    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura, long totalVenta, Date fechaRegistro, Set<Detallefactura> detallefacturas) {
+    public Factura(Cliente cliente, Vendedor vendedor, String numeroFactura, Long totalVenta, Date fechaRegistro, Set<Detallefactura> detallefacturas) {
        this.cliente = cliente;
        this.vendedor = vendedor;
        this.numeroFactura = numeroFactura;

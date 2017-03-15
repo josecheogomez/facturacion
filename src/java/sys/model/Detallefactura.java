@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 01/11/2016 11:18:28 AM by Hibernate Tools 4.3.1
+// Generated 14/03/2017 05:24:44 PM by Hibernate Tools 4.3.1
 
 
 
@@ -21,14 +21,14 @@ public class Detallefactura  implements java.io.Serializable {
     public Detallefactura() {
     }
 
-    public Detallefactura(Factura factura, Producto producto,String codBarra,String nombreProducto, float precioVenta, int cantidad,double total) {
+    public Detallefactura(Factura factura, Producto producto, String codBarra, String nombreProducto, float precioVenta, int cantidad, double total) {
        this.factura = factura;
        this.producto = producto;
-       this.codBarra=codBarra;
-       this.nombreProducto=nombreProducto;
+       this.codBarra = codBarra;
+       this.nombreProducto = nombreProducto;
        this.precioVenta = precioVenta;
        this.cantidad = cantidad;
-       this.total=total;
+       this.total = total;
     }
    
     public Integer getCodDetalle() {
@@ -52,23 +52,20 @@ public class Detallefactura  implements java.io.Serializable {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-
     public String getCodBarra() {
-        return codBarra;
+        return this.codBarra;
     }
-
+    
     public void setCodBarra(String codBarra) {
         this.codBarra = codBarra;
     }
-
     public String getNombreProducto() {
-        return nombreProducto;
+        return this.nombreProducto;
     }
-
+    
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
-    
     public float getPrecioVenta() {
         return this.precioVenta;
     }
@@ -83,11 +80,10 @@ public class Detallefactura  implements java.io.Serializable {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-
     public double getTotal() {
-        return total;
+        return this.total;
     }
-
+    
     public void setTotal(double total) {
         this.total = total;
     }

@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 01/11/2016 11:18:28 AM by Hibernate Tools 4.3.1
+// Generated 14/03/2017 05:24:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,7 +13,7 @@ public class Producto  implements java.io.Serializable {
 
      private Integer codProducto;
      private String nombreProducto;
-     private float precioVenta;
+     private long precioVenta;
      private int stockMinimo;
      private int stockActual;
      private String codBarra;
@@ -23,7 +23,7 @@ public class Producto  implements java.io.Serializable {
     }
 
 	
-    public Producto(String nombreProducto, float precioVenta, int stockMinimo, int stockActual, String codBarra) {
+    public Producto(String nombreProducto, long precioVenta, int stockMinimo, int stockActual, String codBarra) {
         this.nombreProducto = nombreProducto;
         this.precioVenta = precioVenta;
         this.stockMinimo = stockMinimo;
@@ -53,11 +53,11 @@ public class Producto  implements java.io.Serializable {
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
-    public float getPrecioVenta() {
-        return  this.precioVenta;
+    public long getPrecioVenta() {
+        return this.precioVenta;
     }
     
-    public void setPrecioVenta(float precioVenta) {
+    public void setPrecioVenta(long precioVenta) {
         this.precioVenta = precioVenta;
     }
     public int getStockMinimo() {

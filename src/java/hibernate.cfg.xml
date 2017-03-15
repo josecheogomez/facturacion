@@ -12,8 +12,9 @@
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="sys/model/Producto.hbm.xml"/>
     <mapping resource="sys/model/Detallefactura.hbm.xml"/>
+    <mapping resource="sys/model/Vendedor.hbm.xml"/>
     <mapping resource="sys/model/Cliente.hbm.xml"/>
     <mapping resource="sys/model/Factura.hbm.xml"/>
-    <mapping resource="sys/model/Vendedor.hbm.xml"/>
+    <mapping resource="sys/model/Usuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

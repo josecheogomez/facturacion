@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 01/11/2016 11:18:28 AM by Hibernate Tools 4.3.1
+// Generated 14/03/2017 05:24:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -18,6 +18,7 @@ public class Vendedor  implements java.io.Serializable {
      private String celular;
      private String direccion;
      private Set<Factura> facturas = new HashSet<Factura>(0);
+     private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 
     public Vendedor() {
     }
@@ -30,13 +31,14 @@ public class Vendedor  implements java.io.Serializable {
         this.celular = celular;
         this.direccion = direccion;
     }
-    public Vendedor(String nombres, String apellidos, String dui, String celular, String direccion, Set<Factura> facturas) {
+    public Vendedor(String nombres, String apellidos, String dui, String celular, String direccion, Set<Factura> facturas, Set<Usuario> usuarios) {
        this.nombres = nombres;
        this.apellidos = apellidos;
        this.dui = dui;
        this.celular = celular;
        this.direccion = direccion;
        this.facturas = facturas;
+       this.usuarios = usuarios;
     }
    
     public Integer getCodVendedor() {
@@ -87,6 +89,13 @@ public class Vendedor  implements java.io.Serializable {
     
     public void setFacturas(Set<Factura> facturas) {
         this.facturas = facturas;
+    }
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
+    }
+    
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
 

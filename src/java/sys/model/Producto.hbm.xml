@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01/11/2016 11:18:29 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/03/2017 05:24:45 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="sys.model.Producto" table="producto" catalog="facturacion" optimistic-lock="version">
         <id name="codProducto" type="java.lang.Integer">
@@ -11,7 +11,7 @@
         <property name="nombreProducto" type="string">
             <column name="nombreProducto" length="75" not-null="true" />
         </property>
-        <property name="precioVenta" type="float">
+        <property name="precioVenta" type="long">
             <column name="precioVenta" precision="10" scale="0" not-null="true" />
         </property>
         <property name="stockMinimo" type="int">
