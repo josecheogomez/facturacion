@@ -21,7 +21,7 @@ public class usuarioDaoImp implements usuarioDao{
     @Override
     public Usuario obtenerDatosPorUsuario(Usuario usuario) {
         Session session=HibernateUtil.getSessionFactory().openSession();
-        String hql="FROM Usuario Where nombreUsuario=nombreUsuario";
+        String hql="FROM Usuario Where nombreUsuario=:nombreUsuario";
         Query q=session.createQuery(hql);
         q.setParameter("nombreUsuario", usuario.getNombreUsuario());
         return (Usuario) q.uniqueResult();

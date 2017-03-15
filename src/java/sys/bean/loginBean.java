@@ -8,7 +8,7 @@ package sys.bean;
 import java.awt.event.ActionEvent;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
@@ -21,20 +21,16 @@ import sys.model.Usuario;
  * @author José Gómez
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class loginBean {
 
     private Usuario usuario;
     private String nombreUsuario;
-     
     private String password;
-
+    
     public loginBean() {
-        this.usuario=new Usuario();
+        this.usuario= new Usuario();
     }
-    
-    
-
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -64,7 +60,8 @@ public class loginBean {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
         boolean loggedIn = false;
-        String ruta="/sysfacturacion/faces/view/bienvenida.xhtml";
+        //String ruta="/sysfacturacion/faces/view/bienvenida.xhtml";
+        String ruta="";
         
         usuarioDao uDao=new usuarioDaoImp();
         this.usuario=uDao.login(this.usuario);
@@ -72,6 +69,7 @@ public class loginBean {
         if(this.usuario != null) {
             loggedIn = true;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", this.usuario.getNombreUsuario());
+            ruta="/sysfacturacion/faces/view/bienvenida.xhtml";
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Usuarios o Password incorrectos");
