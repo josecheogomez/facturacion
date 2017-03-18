@@ -7,12 +7,13 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
         <title>Facelets Template</title>
     </h:head>
 
     <h:body>
+        <p:growl id="growlPrincipal"/>
         <div id="general">
             <div id="top">
             <ui:insert name="top">
@@ -28,7 +29,6 @@
                 </div>
                 <div id="menuPrincipal">
                 <h:form>
-                    <p:growl id="growlPrincipal"/>
                     <p:menubar>
                         <p:submenu label="Inicio" icon="ui-icon-document">
                             <p:menuitem value="Pagina Inicio" url="#" />
