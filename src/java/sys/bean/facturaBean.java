@@ -6,6 +6,7 @@
 package sys.bean;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -15,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
@@ -33,6 +35,7 @@ import sys.model.Factura;
 import sys.model.Producto;
 import sys.model.Vendedor;
 import sys.util.HibernateUtil;
+import sysClasesAuxiliares.reportFactura;
 
 /**
  *
@@ -517,6 +520,35 @@ public class facturaBean {
         
         this.fechaSistema=(dia+"/"+(mes+1)+"/"+anio);
         return fechaSistema;
+    }
+    /*----------*/
+
+/*Para el bean, facturaBean*/ 
+ //Metodo para invocar el reporte y enviarle los parametros
+    public void verReporte() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+        this.vendedor.setCodVendedor(lBean.getUsuario().getVendedor().getCodVendedor());
+        int cc = this.cliente.getCodCliente();
+        int cv = this.vendedor.getCodVendedor();
+        int cf = this.factura.getCodFactura() + 1;        
+
+        //invocamos al metodo guardarVenta, para almacenar la venta en las tablas correspondientes
+        this.guardarVenta();
+
+        //Instancia hacia la clase reporteFactura        
+        reportFactura rFactura = new reportFactura();
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+        String ruta = servletContext.getRealPath("/Reportes/factura.jasper");
+
+        System.out.println("Cliente: " + cc);
+        System.out.println("Vendedor: " + cv);
+        System.out.println("Factura: " + cf);
+
+        rFactura.getReporte(ruta, cc, cv, cf);
+        FacesContext.getCurrentInstance().responseComplete();
+               
     }
     
 }

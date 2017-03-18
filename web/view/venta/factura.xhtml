@@ -51,13 +51,21 @@
                             </p:layoutUnit>
                         </p:layout>
                         <p:separator/>
-                        <h:panelGrid id="gridBuscarProducto" columns="3">
+                        <h:panelGrid id="gridBuscarProducto" columns="6">
                             <p:outputLabel value="Codigo de Barra"/>
                             <p:inputText id="txtBuscarProductoCodigoBarra" size="12" value="#{facturaBean.codigoBarra}" disabled="#{!facturaBean.enable}">
                                 <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto2()}"
                                         update=":formFactura:gridBuscarProducto"/>
                             </p:inputText>
                             <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos" disabled="#{!facturaBean.enable}"/>
+                            <h:panelGroup>-----------</h:panelGroup>
+                            <p:panel style="width: 100px; height: 40px;">
+                                <h:commandLink id="btnImprimir" actionListener="#{facturaBean.verReporte()}" title="Exportar PDF"
+                                               disabled="#{!facturaBean.enable}">
+                                    <p:graphicImage url="/resources/imagenes/impresora_32.png"/>
+                                </h:commandLink>
+                            </p:panel>
+                             <h:panelGroup>-----------</h:panelGroup>
                         </h:panelGrid>
                         <p:separator/>
                         <p:dataTable id="tablaProductoFactura" value="#{facturaBean.listaDetalleFactura}" var="item" rowIndexVar="rowIndex"
@@ -113,7 +121,7 @@
                         <p:commandButton value="Registrar" actionListener="#{facturaBean.guardarVenta()}"
                                          style="width: 150px; height: 60px"
                                          update=":formFactura" disabled="#{!facturaBean.enable}" action="#{facturaBean.disableBooton()}"/>
-                        <p:commandButton value="Imprimir" style="width: 150px; height: 60px" disabled="#{!facturaBean.enable}"/>
+                       
                         <p:commandButton value="Cancelar" action="#{facturaBean.limpiarFactura()}"
                                          style="width: 150px; height: 60px"
                                          update=":formFactura" disabled="#{!facturaBean.enable}"/>
