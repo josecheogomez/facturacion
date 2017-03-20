@@ -17,8 +17,19 @@
                                      oncomplete="PF('dialogNuevoProducto').show();" update="formNuevoProducto"/>
                 </h:form>
                 <h:form id="formMostraProducto">
-                    <p:dataTable id="tablaProducto" paginator="true" paginatorPosition="top"
+                    <p:dataTable id="tablaProducto" paginator="true" rows="10" paginatorPosition="top" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                  var="ct"   value="#{productoBean.listaProducto}" emptyMessage="No hay datos">
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="/imagenes/excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="tablaProducto" fileName="listProducto" />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/imagenes/pdf.png" width="24"/>
+                                <p:dataExporter type="pdf" target="tablaProducto" fileName="listProducto"/>
+                            </h:commandLink>
+                        </f:facet>
                         <p:column headerText="codigo">
                             <h:outputText value="#{ct.codProducto}"/>
                         </p:column>
