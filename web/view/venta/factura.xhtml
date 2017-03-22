@@ -59,12 +59,14 @@
                             </p:inputText>
                             <p:commandButton value="..." oncomplete="PF('dialogProductos').show();" update=":formFactura:dlgProductos" disabled="#{!facturaBean.enable}"/>
                             <h:panelGroup>-----------</h:panelGroup>
+                            
                             <p:panel style="width: 100px; height: 40px;">
                                 <h:commandLink id="btnImprimir" actionListener="#{facturaBean.verReporte()}" title="Exportar PDF"
                                                disabled="#{!facturaBean.enable}">
                                     <p:graphicImage url="/resources/imagenes/impresora_32.png"/>
                                 </h:commandLink>
                             </p:panel>
+                            
                              <h:panelGroup>-----------</h:panelGroup>
                         </h:panelGrid>
                         <p:separator/>

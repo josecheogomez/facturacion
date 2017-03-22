@@ -18,7 +18,19 @@
                 </h:form>
                 <h:form id="formMostraVendedor">
                     <p:dataTable id="tablaVendedor" paginator="true" paginatorPosition="top"
-                                 var="ct"   value="#{vendedorBean.listaVendedor}" emptyMessage="No hay datos">
+                                 var="ct"   value="#{vendedorBean.listaVendedor}" emptyMessage="No hay datos"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}">
+                        <f:facet name="{Exporters}">
+                            <h:commandLink>
+                                <p:graphicImage name="/imagenes/excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="tablaVendedor" fileName="listProducto" />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/imagenes/pdf.png" width="24"/>
+                                <p:dataExporter type="pdf" target="tablaVendedor" fileName="listProducto"/>
+                            </h:commandLink>
+                        </f:facet>
                         <p:column headerText="codigo">
                             <h:outputText value="#{ct.codVendedor}"/>
                         </p:column>
